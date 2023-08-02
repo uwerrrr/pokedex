@@ -34,26 +34,25 @@ public class PokemonController {
 		
 		String enterName = data.getName();
 		
-//		if (this.pokemonService.isExistedName(enterName)) {
-//			throw new DataIntegrityViolationException("Pokemon with name " + enterName + " already exists.");
-////			throw new IllegalArgumentException("Pokemon with name " + enterName + " already exists.");
-//		}
-//		
-//		
-//		
-//		Pokemon createdPokemon = this.pokemonService.create(data);
-//		
-//		return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
+		if (this.pokemonService.isExistedName(enterName)) {
+			throw new DataIntegrityViolationException("Pokemon with name " + enterName + " already exists.");
 		
-        try {
-            Pokemon createdPokemon = this.pokemonService.create(data);
-            return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
-        } catch(DataIntegrityViolationException ex) {
-        		System.out.println("ex.getMessage(): "+ ex.getMessage());
-			throw new IllegalArgumentException("Pokemon with name " + enterName + " already exists.");
-        	
-//        		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		}	
+		}
+
+		Pokemon createdPokemon = this.pokemonService.create(data);
+
+		return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
+		
+//        try {
+//            Pokemon createdPokemon = this.pokemonService.create(data);
+//            return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
+//        } catch(DataIntegrityViolationException ex) {
+//        		System.out.println("ex.getMessage(): "+ ex.getMessage());
+////			throw new IllegalArgumentException("Pokemon with name " + enterName + " already exists.");
+//        	
+////        	return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+//        		throw new NotFoundException(String.format("abc"));
+//		}	
 	}
 	
 	
