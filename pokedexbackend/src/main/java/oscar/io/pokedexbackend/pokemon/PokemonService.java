@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
@@ -19,11 +21,14 @@ public class PokemonService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	// check existing name
+	protected boolean isExistedName(String name) {
+		return this.pokemonRepository.existsByName(name);
+	}
+	
+	
 	///// CREATE
 	public Pokemon create(CreatePokemonDTO data) {
-		
-		System.out.println(data.getName());
-		
 		Pokemon newPokemon = modelMapper.map(data, Pokemon.class);
 			// modelMapper.map(source, destination type)
 		
@@ -49,6 +54,21 @@ public class PokemonService {
 		
 		return maybePokemon;
 	}
+	
+	// filter by type
+	public List<Pokemon> findByType(String type){
+		List<Pokemon> pokemonList = this.pokemonRepository.findByType(type);
+		
+		return pokemonList;
+	}
+	
+	// filter by minHp
+	public List<Pokemon> findByMinHp(Integer minHp){
+		List<Pokemon> pokemonList = this.pokemonRepository.findByHpGreaterThanEqual(minHp);
+		
+		return pokemonList;
+	}
+	
 	
 	//// DELETE
 	// delete by id

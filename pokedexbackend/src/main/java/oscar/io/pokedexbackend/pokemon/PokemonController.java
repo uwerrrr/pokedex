@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -25,12 +26,23 @@ public class PokemonController {
 	@Autowired
 	private PokemonService pokemonService;
 	
+
 	//// POST
 	@PostMapping
 	public ResponseEntity <Pokemon> createPokemon(@Valid @RequestBody CreatePokemonDTO data){
+		
+		String enterName = data.getName();
+		
+		if (this.pokemonService.isExistedName(enterName)) {
+			throw new IllegalArgumentException("Pokemon with name " + enterName + " already exists.");
+		}
+		
 		Pokemon createdPokemon = this.pokemonService.create(data);
+		
 		return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
 	}
+	
+	
 	
 	//// GET (find)
 	@GetMapping
@@ -48,6 +60,30 @@ public class PokemonController {
 		}
 		return new ResponseEntity<>(foundPokemon.get(), HttpStatus.OK);
 	}
+	
+	// filter by type
+	@GetMapping(params = "type")
+	public ResponseEntity<List<Pokemon>> getByType(@RequestParam("type") String type) {
+		List<Pokemon> pokemonList = pokemonService.findByType(type);
+//		if (pokemonList.isEmpty()) {
+//	    
+//			throw new NotFoundException(String.format("Pokemon with type: %s not found", type));
+//	    }
+	    return new ResponseEntity<>(pokemonList, HttpStatus.OK);
+	}
+	
+	// filter by minHp
+	@GetMapping(params = "minHp")
+	public ResponseEntity<List<Pokemon>> getByMinHp(@RequestParam("minHp") Integer minHp) {
+		List<Pokemon> pokemonList = pokemonService.findByMinHp(minHp);
+//		if (pokemonList.isEmpty()) {
+//	    
+//			throw new NotFoundException(String.format("Pokemon with minimum hp: %d not found", minHp));
+//	    }
+	    return new ResponseEntity<>(pokemonList, HttpStatus.OK);
+	}
+	
+	
 	
 	//// DELLETE
 	// return 204 - success, no content
