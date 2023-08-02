@@ -9,6 +9,7 @@ import lombok.Setter;
 //DTO: Data Transfer Object
 public class CreatePokemonDTO {
 	
+	
 	@NotBlank
 	String name;
 	

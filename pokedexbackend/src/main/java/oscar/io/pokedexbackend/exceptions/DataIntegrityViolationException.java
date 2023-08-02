@@ -1,12 +1,10 @@
 package oscar.io.pokedexbackend.exceptions;
 
-public class IllegalArgumentException extends RuntimeException {
-	
+public class DataIntegrityViolationException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-	
 	private String message;
 	
-	public IllegalArgumentException(String message) {
+	public DataIntegrityViolationException(String message) {
 		super();
 		this.message = message;
 	}

@@ -16,13 +16,14 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-//	@ExceptionHandler(IllegalArgumentException.class)
-//	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex){
-//		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-//	}
-	
 	@ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
+	public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex){
+		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+//	@ExceptionHandler(NotFoundException.class)
+//	public ResponseEntity<String> handleNotFoundException(NotFoundException ex){
+//		return new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
+//		
+//	}
+
 }

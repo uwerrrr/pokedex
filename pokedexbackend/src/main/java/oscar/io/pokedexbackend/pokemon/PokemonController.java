@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,13 +34,26 @@ public class PokemonController {
 		
 		String enterName = data.getName();
 		
-		if (this.pokemonService.isExistedName(enterName)) {
+//		if (this.pokemonService.isExistedName(enterName)) {
+//			throw new DataIntegrityViolationException("Pokemon with name " + enterName + " already exists.");
+////			throw new IllegalArgumentException("Pokemon with name " + enterName + " already exists.");
+//		}
+//		
+//		
+//		
+//		Pokemon createdPokemon = this.pokemonService.create(data);
+//		
+//		return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
+		
+        try {
+            Pokemon createdPokemon = this.pokemonService.create(data);
+            return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
+        } catch(DataIntegrityViolationException ex) {
+        		System.out.println("ex.getMessage(): "+ ex.getMessage());
 			throw new IllegalArgumentException("Pokemon with name " + enterName + " already exists.");
-		}
-		
-		Pokemon createdPokemon = this.pokemonService.create(data);
-		
-		return new ResponseEntity<>(createdPokemon, HttpStatus.CREATED);
+        	
+//        		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}	
 	}
 	
 	

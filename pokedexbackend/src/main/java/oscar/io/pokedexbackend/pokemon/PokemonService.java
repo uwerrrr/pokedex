@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,21 @@ public class PokemonService {
 	
 	///// CREATE
 	public Pokemon create(CreatePokemonDTO data) {
-		Pokemon newPokemon = modelMapper.map(data, Pokemon.class);
-			// modelMapper.map(source, destination type)
+//		Pokemon newPokemon = modelMapper.map(data, Pokemon.class);
+//			// modelMapper.map(source, destination type)
+//		
+//		Pokemon createdPokemon = this.pokemonRepository.save(newPokemon);
+//	
+//		return createdPokemon;
+		String enterName = data.getName();
+//	    try {
+	    	Pokemon newPokemon = modelMapper.map(data, Pokemon.class);
+	    	Pokemon createdPokemon = this.pokemonRepository.save(newPokemon);
+	    	return createdPokemon;
+//        } catch(DataIntegrityViolationException ex) {
+//			throw new IllegalArgumentException("Pokemon with name " + enterName + " already exists.");
+//		}	
 		
-		Pokemon createdPokemon = this.pokemonRepository.save(newPokemon);
-	
-		return createdPokemon;
 	} // return the created pokemon
 	
 	

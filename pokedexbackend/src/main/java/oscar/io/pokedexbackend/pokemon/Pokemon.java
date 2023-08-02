@@ -19,7 +19,7 @@ public class Pokemon {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // ~ AUTO_INCREMENT from 1
 	private Long id;
 	
-	@Column
+	@Column(unique = true, nullable = false)
 	private String name;
 	
 	@Column
@@ -33,7 +33,17 @@ public class Pokemon {
 	
 	@Column
 	private Long evolutionId;
+
+	//// constructors
+	public Pokemon() {}
 	
+	public Pokemon(String name, String type, Integer hp, String url, Long evolutionId) {
+		this.name = name;
+		this.type = type;
+		this.hp = hp;
+		this.url = url;
+		this.evolutionId = evolutionId;
+	}
 	
 	//// Getter & Setter
 	public Long getId() {
@@ -81,16 +91,7 @@ public class Pokemon {
 	}
 
 	
-	// constructors
-	public Pokemon() {}
-	
-	public Pokemon(String name, String type, Integer hp, String url, Long evolutionId) {
-		this.name = name;
-		this.type = type;
-		this.hp = hp;
-		this.url = url;
-		this.evolutionId = evolutionId;
-	}
+
 
 	
 }
